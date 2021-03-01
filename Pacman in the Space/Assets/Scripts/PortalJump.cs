@@ -14,12 +14,12 @@ public class PortalJump : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.name == "Portal")
-            gameObject.transform.position = portal2.transform.position + new Vector3(1, 0, 0);
+            gameObject.transform.position = portal2.transform.position + new Vector3(0, 0, 2);
         else if (collider.gameObject.name == "Portal2")
-            gameObject.transform.position = portal1.transform.position + new Vector3(1, 0, 0);
+            gameObject.transform.position = portal1.transform.position + new Vector3(2, 0, 0);
         else if (collider.gameObject.name == "Portal3")
-            gameObject.transform.position = portal4.transform.position + new Vector3(2, 0, 0);
+            gameObject.transform.position = portal4.transform.position + new Vector3(-2, 0, 0);
         else if (collider.gameObject.name == "Portal4")
-            gameObject.transform.position = portal3.transform.position + new Vector3(2, 0, 0);
+            gameObject.transform.position = portal3.transform.position + new Vector3(0, 0, 2);
     }
 }
