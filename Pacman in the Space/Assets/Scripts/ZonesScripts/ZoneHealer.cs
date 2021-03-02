@@ -10,14 +10,38 @@ public class ZoneHealer : MonoBehaviour
     private bool isRegeneration;
     public Text _endGame;
     GameObject gameMaster;
+    Component[] ghostAllParts;
+    List<Component> ghostBodyParts;
     GameStats gameStats;
-      Renderer _renderer;
+    Renderer _renderer;
+    Renderer _rendererGhostPart;
     Color defaultColor;
     void Start()
     {
         if(gameObject.name == "Player"){
         _renderer = GetComponent<Renderer>();
         defaultColor = _renderer.material.GetColor("_Color");
+        }
+        else{
+            ghostAllParts = gameObject.GetComponentsInChildren<Component>();
+            foreach(Component c in ghostAllParts){
+                    if(c.name == "Sphere"){
+                        ghostBodyParts = new List<Component>();
+                        ghostBodyParts.Add(c);
+                    }
+                    else if(c.name == "Sphere.001"){
+                        ghostBodyParts.Add(c);
+                    }
+                    else if(c.name == "Sphere.002"){
+                        ghostBodyParts.Add(c);
+                    }
+                    else if(c.name == "Sphere.003"){
+                        ghostBodyParts.Add(c);
+                    }
+            }
+            // foreach(Component sphere in ghostBodyParts){
+            //      print("Название- "+sphere.name);
+            // }
         }
 
         
@@ -54,6 +78,7 @@ public class ZoneHealer : MonoBehaviour
             isRegeneration = false;
             healthStat.regeneration = isRegeneration;
             healthStat.hp = hp;
+            // _renderer.material.SetColor("_Color", Color.red);
         }
         if (other.tag == "Trap" && gameObject.name != "Player")
         {
@@ -62,6 +87,11 @@ public class ZoneHealer : MonoBehaviour
             isRegeneration = false;
             healthStat.regeneration = isRegeneration;
             healthStat.hp = hp;
+            foreach(Component sphere in ghostBodyParts){
+                    print("Смена цвета для "+sphere.name);
+                    _rendererGhostPart = sphere.GetComponent<Renderer>();
+                    _rendererGhostPart.material.SetColor("_Color", new Color(1.0f, 0.36f, 0.0f, 1.0f));//255, 98, 68
+                }
             StartCoroutine(TrapKiller());
         }
     }
@@ -78,11 +108,21 @@ public class ZoneHealer : MonoBehaviour
         {
             isRegeneration = true;
             healthStat.regeneration = isRegeneration;
+            foreach(Component sphere in ghostBodyParts){
+                 print("Смена цвета для "+sphere.name);
+                 _rendererGhostPart = sphere.GetComponent<Renderer>();
+                 _rendererGhostPart.material.SetColor("_Color", Color.yellow);
+            }
         }
         else if (other.tag == "Healing" && gameObject.name == "Player")
         {
             _renderer.material.SetColor("_Color", defaultColor);
         }
+        else if (other.tag == "Damager" && gameObject.name == "Player")
+        {
+            _renderer.material.SetColor("_Color", defaultColor);
+        }
+        
     }
 
     void Update()

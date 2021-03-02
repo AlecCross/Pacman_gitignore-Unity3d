@@ -8,12 +8,20 @@ public class GameStats : MonoBehaviour
     public int ghostCount;
     public int pickUpCrystalsCount;
     bool gameOver;
+    GameObject directLight;
+    Light lightComp;
+    Color defaultColor;
+    Color setColor;
     void Start()
     {
+        
+        directLight = GameObject.Find("Directional Light");
+        lightComp = directLight.GetComponent<Light>();
+        defaultColor = lightComp.color;
         ghostCount = 3;
+        setColor=Color.blue;
     }
 
-    // Update is called once per frame
     void Update()
     { 
         if(!gameOver){
@@ -21,12 +29,21 @@ public class GameStats : MonoBehaviour
                 gameOver = true;   
                 print("Уровень завершон победой");
                 print("Игрок собрал " + pickUpCrystalsCount+" крист.");
+                StartCoroutine("BlueLight");
             }
             if(ghostCount==0){
                 gameOver = true;
                 print("Все враги унечтожены");
                 print("Уровень завершон победой");
+                
             }
         }
+    }
+    IEnumerator BlueLight(){
+        
+        lightComp.color=setColor;       
+        yield return new WaitForSeconds(10f);
+        lightComp.color=defaultColor;
+
     }
 }
