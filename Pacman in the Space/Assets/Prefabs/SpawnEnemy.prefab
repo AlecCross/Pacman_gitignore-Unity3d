@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 586856728929778088}
   - component: {fileID: 586856728929778089}
   - component: {fileID: 586856728929778090}
-  - component: {fileID: 1408014977}
+  - component: {fileID: 5282958669977217874}
   m_Layer: 0
   m_Name: SpawnEnemy
   m_TagString: Spawn
@@ -94,7 +94,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.226581, y: 0.7996783, z: 3.3915222}
   m_Center: {x: -0.082470655, y: -0.10016084, z: 0}
---- !u!114 &1408014977
+--- !u!114 &5282958669977217874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 586856728929778004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f512a04ea8c77e0419466cc106152e7d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb27c9e4746b504597903db8fe1bb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1985835238849028831, guid: e4ad06ba7dea34d48b4e3b300bfadb7c,

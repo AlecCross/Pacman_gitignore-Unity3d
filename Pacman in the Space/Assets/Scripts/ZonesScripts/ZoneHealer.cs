@@ -11,8 +11,16 @@ public class ZoneHealer : MonoBehaviour
     public Text _endGame;
     GameObject gameMaster;
     GameStats gameStats;
+      Renderer _renderer;
+    Color defaultColor;
     void Start()
     {
+        if(gameObject.name == "Player"){
+        _renderer = GetComponent<Renderer>();
+        defaultColor = _renderer.material.GetColor("_Color");
+        }
+
+        
         gameMaster = GameObject.Find("GameMaster");
         gameStats = gameMaster.GetComponent<GameStats>();
         healthStat = gameObject.GetComponent<HealthStat>();
@@ -29,11 +37,13 @@ public class ZoneHealer : MonoBehaviour
             if (hp < 99)
             {
                 hp += Time.deltaTime * 5;
+                 _renderer.material.SetColor("_Color", Color.green);
                 //print(gameObject.name + " Увеличение Здоровья " + hp);
             }
             else if (hp >= 99 && hp < 100)
             {
                 hp = 100;
+                _renderer.material.SetColor("_Color", defaultColor);
                 //print(gameObject.name + " Здоров " + hp);
             }
         }
@@ -68,6 +78,10 @@ public class ZoneHealer : MonoBehaviour
         {
             isRegeneration = true;
             healthStat.regeneration = isRegeneration;
+        }
+        else if (other.tag == "Healing" && gameObject.name == "Player")
+        {
+            _renderer.material.SetColor("_Color", defaultColor);
         }
     }
 
