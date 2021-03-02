@@ -49,8 +49,6 @@ public class ZoneHealer : MonoBehaviour
             //      print("Название- "+sphere.name);
             // }
         }
-
-        
         gameMaster = GameObject.Find("GameMaster");
         gameStats = gameMaster.GetComponent<GameStats>();
         healthStat = gameObject.GetComponent<HealthStat>();
@@ -97,6 +95,11 @@ public class ZoneHealer : MonoBehaviour
                 print("ghostLight "+ ghostLight.ToString());
                 ghostLight.color = orangeColor;
                 ghostLight.intensity = 10;
+                foreach(Component sphere in ghostBodyParts){
+                    print("Смена цвета для "+sphere.name);
+                    _rendererGhostPart = sphere.GetComponent<Renderer>();
+                    _rendererGhostPart.material.SetColor("_Color", new Color(1.0f, 0.36f, 0.0f, 1.0f));//255, 98, 68
+                }
             }
         }
         if (other.tag == "Trap" && gameObject.name != "Player")
@@ -106,11 +109,7 @@ public class ZoneHealer : MonoBehaviour
             isRegeneration = false;
             healthStat.regeneration = isRegeneration;
             healthStat.hp = hp;
-            foreach(Component sphere in ghostBodyParts){
-                    print("Смена цвета для "+sphere.name);
-                    _rendererGhostPart = sphere.GetComponent<Renderer>();
-                    _rendererGhostPart.material.SetColor("_Color", new Color(1.0f, 0.36f, 0.0f, 1.0f));//255, 98, 68
-                }
+            
             StartCoroutine(TrapKiller());
         }
     }
@@ -119,6 +118,8 @@ public class ZoneHealer : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         //this.gameObject.SetActive(false);
         gameStats.ghostCount--;
+        ghostLight.intensity = 100;
+        yield return new WaitForSeconds(0.2f);
         Destroy(this.gameObject);
     }
     void OnTriggerExit(Collider other)
@@ -151,14 +152,15 @@ public class ZoneHealer : MonoBehaviour
     {
         if (hp < 1)
         {
-            gameObject.SetActive(false);
             print(gameObject.name + " Убит");
             if (gameObject.name == "Player")
             {
+                gameObject.SetActive(false);
                 _endGame.text = "Game Over";
             }
             else if (gameObject.name != "Player")
             {
+                StartCoroutine(TrapKiller());
                 //gameStats.ghostCount--;
             }
             
